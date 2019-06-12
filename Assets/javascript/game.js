@@ -1,41 +1,68 @@
 
 // Creates an array that lists out all of the options (a-z).
+var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var chances = 0;
+var wrongGuess = [];
+var guessesLeft = 9;
+var yourGuessesSoFar = 0;
+var answerArray = [];
+var wins = 0;
+let computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)]
+var losses = 0;
+/*
+1. THe computer guesses a letter from the array (computer choices). Make sure the user enters a letter.
+2. THe user guesses a letter from the same array. 
+3. That letter is lowwercased (toLowerCase()), The latter is put in an array.
+4. Compare the guesses
+5. If user_guess === computer_guess : ++wins
+6. If they do not match: ++guesses
+7. If guesses == 7, then ++losses 
+8. If the user guesses more than 9 times without a win. Alert and then reset
+*/
 
-var computerChoices = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
-    var game = 0;
-    var wins = 0;
-    var losses = 0;
-    var guessesLeft = 0;
-    var yourGuessesSoFar = 0;
-    var answerArray = [];
+//function reset() {}
+//const reset = ()=>{}
 
-    // This function is run whenever the user presses a key. Onkeyup event is created when user releases the key.
+let reset = () => {
+    console.log("Resetting........")
+    computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+    guessesLeft = 9;
+    wrongGuess = [];
+    losses++
+}
 
-    document.onkeyup = function(event) {
-        alert("working!");
-    }
-      
-        // Determines which key was pressed.Then we want the function to be performed.   
-        document.onkeyup = function() {
-            // keycode is attached to the key that has just been released. 
-            // then take that character and convert it into a String. 
-            // toLowerCase converts string to a lowercase format. 
-            // var userguess gets reassigned every time the user presses a key. 
-        var userguess = String.fromCharCode(event.keyCode).toLowerCase();
-        // making sure the computer is logging the user's guesses. 
-        console.log(userguess);
-        
-  
-        // Randomly chooses a choice from the options array. Computer's guess.
-        // Math.random produces a random number between 0 - 1, multiplied by the length of the array.  
-        var computerGuess = computerChoices[Math.floor(Math.random()*computerChoices.length)];
-        // logs computers guess
-        console.log(computerGuess);
+
+//This is a function that takes in an argument. THrough the function it is called a parameter.
+document.onkeyup = function (event) {
+    if (event.keyCode >= 65 && event.keyCode <= 90) {
+        console.log(event)
+        var userKeyPressed = event.key.toLowerCase();
+        if (chances === 0) {
+            console.log(computerGuess)
         }
-      
-// now using conditional If/Then statements to compare guesses for wins or losses. 
-if (userguess === "computerGuess"){
-    alert("You Win!");
-} else {
-    alert("You Are Not Psychic")
+
+        if (computerGuess === userKeyPressed) {
+            ++wins
+            reset()
+            console.log(`You now have ${wins} wins`)
+        } else {
+            --guessesLeft
+            console.log(`You now have ${guessesLeft} guesses left`);
+            wrongGuess.push(userKeyPressed);
+        }
+        if (guessesLeft === 0) {
+            console.log('You Lose')
+            reset()
+        }
+    } else {
+        alert("Not a number")
+    }
+
+    document.getElementById("wins").innerHTML = wins;
+
+    document.getElementById("wrongGuess").innerHTML = wrongGuess;
+
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
+
+    document.getElementById("losses").innerHTML = losses;
 }
