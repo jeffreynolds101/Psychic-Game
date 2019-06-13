@@ -18,7 +18,7 @@ var losses = 0;
 6. If they do not match: ++guesses
 7. If guesses == 7, then ++losses 
 8. If the user guesses more than 9 times without a win. Alert and then reset
-*/
+// */
 
 //function reset() {}
 //const reset = ()=>{}
